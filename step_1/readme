@@ -102,4 +102,4 @@ result in solana logs:
 
    (replace AwsrRzgubeCsP77GNRdGCH4XefWkczFPrAzm86q7gVv4 by public key of your keypair)
 
-12. Optionally: eExtend memo-cli program to fetch transaction logs using client.get_transaction() method
+12. Optionally: extend memo-cli program to fetch transaction logs using client.get_transaction() method
