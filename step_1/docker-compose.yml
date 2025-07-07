@@ -1,0 +1,27 @@
+services:
+  solana:
+    image: anzaxyz/agave:v2.1.7
+    environment:
+      RUST_LOG: solana_runtime::system_instruction_processor=debug,solana_runtime::message_processor=debug,solana_bpf_loader=debug,solana_rbpf=debug
+    hostname: solana
+    ports:
+      - 8899:8899
+      - 9900:9900
+      - 8900:8900
+      - 8003:8003/udp
+    expose:
+      - "8899"
+      - "9900"
+      - "8900"
+      - "8001"
+      - "8001-8009/udp"
+    networks:
+      - net
+    healthcheck:
+      test: [ CMD-SHELL, "solana cluster-version -u http://solana:8899" ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+      start_period: 10s
+networks:
+  net:
