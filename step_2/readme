@@ -1,0 +1,23 @@
+1. investigate sources of the hello_world smart-contract.
+    useful links:
+        https://solana.com/docs/core/accounts#rent
+        https://solana.com/docs/core/pda
+        https://solana.com/docs/core/cpi
+
+2. build project using solana-tools:
+    $ cd hello-world
+    $ cargo build-sbf
+
+3. run solana, airdrop funds, deploy hello-world contract
+    $ solana program deploy target/deploy/hello_world.so
+
+4. create program in Rust that creates and sends transactions to invoke hello_world contract:
+    - create_account instruction
+    - resize_account instruction
+
+5. extend hello_world contract:
+    - implement transfer instruction
+    - implement update_account_data instruction
+    - implement set_owner instruction
+
+
