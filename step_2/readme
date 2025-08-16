@@ -22,16 +22,60 @@
 
 5. extend hello_world contract:
     - implement system_program::transfer instruction
-        it can be transfer to non-existent account
+        transfer funds to existent account, non-existent account
+
+    - implement system_program::allocate instruction
+        call it to allocate account space
 
     - implement system_instruction::assign instruction
-        steps to reproduce:
-         - call instruction to create new account with owner SystemProgram::ID,
+        steps to test:
+         - call transfer instruction to create new account with owner == SystemProgram::ID,
          - call instruction to assign owner to program_id
 
-    - implement instruction that creates or reallocates account. Use this link:
+    - investigate following example which creates a non-existent account or allocates an existent account:
     https://github.com/solana-program/associated-token-account/blob/e320c11553bfedb7aa52d781ed4d672fa5d92657/program/src/tools/account.rs#L28
 
     To find out how the SystemProgram instructions work, you can use the link:
     https://github.com/anza-xyz/agave/blob/master/programs/system/src/system_processor.rs
+
+6. Understanding Solana authority rules.
+    - create new solana accounts:
+        solana-keygen new --no-bip39-passphrase --silent id1.json
+        solana-keygen new --no-bip39-passphrase --silent id2.json
+
+    - deploy hello_world.so to two different addresses:
+        solana program deploy --program-id id1.json hello_world.so
+        solana program deploy --program-id id2.json hello_world.so
+
+    - call create_account instructions for each programs
+
+    - try to call resize instruction of program_1 using account created by program_2.
+        Transaction will fail.
+        Reason: program_1 is able to modify only its own account.
+
+    - try to call assign instruction of program_1 using account created by program_2.
+        Transaction will fail.
+        Reason : to allocate account, it is necessary to provide signature of this account:
+        https://github.com/anza-xyz/solana-sdk/blob/9decd857f019cc4c8dd89f4b3811ea56b0ac5c8e/system-interface/src/instruction.rs#L624
+        We are using program derived accounts (PDA) which were derived from progam_1, program_2.
+        PDA doesn't have corresponding private keys. PDA uses the seed as authority (as signature).
+        There are to reasons why transaction failed:
+            1. program_1 can't provide seed of PDA that was derived from
+            2. program_1 is able to modify only its own accounts
+
+     - implement instruction "transfer_from" which transfers funds from specified PDA account.
+     Then:
+        - create PDA account. Transfer funds to this account. You can do that using "solana" tool in terminal or by calling hello_world::transfer instruction.
+        - call transfer_from instruction. Transaction will fail.
+        Reason: The instruction SystemProgram::transfer is processed by SystemProgram.
+        Each Solana program is able to modify only its ows accounts. PDA is owned by hello_world program.
+
+     - modify the create_account instruction: instruction data should consists of instruction_id | owner | len
+        Then:
+            - create PDA with owner == SystemProgram::ID and data.len() != 0
+            - transfer funds to this account
+            - try to transfer funds from this account using "transfer_from" instruction
+            Transaction will fail.
+            Reason: Implementation of SystemProgram::transfer instruction raise error if "from" account has non-empty data:
+            https://github.com/anza-xyz/agave/blob/338f1d82445e929625ea5a318467c8d8c79564bc/programs/system/src/system_processor.rs#L196
 
