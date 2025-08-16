@@ -13,11 +13,25 @@
 
 4. create program in Rust that creates and sends transactions to invoke hello_world contract:
     - create_account instruction
-    - resize_account instruction
+    - resize_account instruction:
+        steps to reproduce:
+        - call instruction create_account to create account with data.len ==0
+        - call instruction resize to allocate account data
+        - call instruction resize to deallocate account data
+
 
 5. extend hello_world contract:
-    - implement transfer instruction
-    - implement update_account_data instruction
-    - implement set_owner instruction
+    - implement system_program::transfer instruction
+        it can be transfer to non-existent account
 
+    - implement system_instruction::assign instruction
+        steps to reproduce:
+         - call instruction to create new account with owner SystemProgram::ID,
+         - call instruction to assign owner to program_id
+
+    - implement instruction that creates or reallocates account. Use this link:
+    https://github.com/solana-program/associated-token-account/blob/e320c11553bfedb7aa52d781ed4d672fa5d92657/program/src/tools/account.rs#L28
+
+    To find out how the SystemProgram instructions work, you can use the link:
+    https://github.com/anza-xyz/agave/blob/master/programs/system/src/system_processor.rs
 
