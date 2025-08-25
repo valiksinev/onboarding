@@ -1,0 +1,167 @@
+        Introduction to the SplProgram
+
+    doc:    https://solana.com/docs/tokens
+            https://solana.com/docs/tokens/basics
+    github:
+        SplToken source: git@github.com:solana-program/token.git
+        AssociatedSplTokenAccount: git@github.com:solana-program/associated-token-account.git
+
+
+    1. To understand functionality of the spl-token contract try to use spl-token utility:
+        - run solana-validator
+
+        - create a new token:
+            $ spl-token create-token
+            Creating token 8QvKCrvUWjR8emErThAM9xkF4RxMNSF1mPXqofURhA14 under program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA
+
+            Address:  8QvKCrvUWjR8emErThAM9xkF4RxMNSF1mPXqofURhA14
+            Decimals:  9
+
+
+        - create spl-account associated with your Solana wallet:
+            $ spl-token create-account 8QvKCrvUWjR8emErThAM9xkF4RxMNSF1mPXqofURhA14
+            Creating account EjS8MtoofhoF1VCJhSyhkvKAFJAUGuKvAaUmirQj9X44
+
+            Signature: 5UABCnm1WnzJeNxMyjuUrEfiUJFMosQuKHnmtoHpFQPT9ZX96zmFSDjffSa25F3XExgXqUd19irhsFzWS3PyJVvp
+
+        - mint funds to your spl-account:
+        $ spl-token mint 8QvKCrvUWjR8emErThAM9xkF4RxMNSF1mPXqofURhA14 100
+        Minting 100 tokens
+          Token: 8QvKCrvUWjR8emErThAM9xkF4RxMNSF1mPXqofURhA14
+          Recipient: EjS8MtoofhoF1VCJhSyhkvKAFJAUGuKvAaUmirQj9X44
+
+        Signature: 3eDxGZ34ozcHiAiBdPVuHyqsScgPTPjdwYkq8jz8qweDw1kwnmvaxyyRAuE5QCsQpq8sUfh3PV1kGjNLHjjfcUGw
+
+
+        - take a look at result:
+        $ spl-token accounts -v
+        Program                                       Token                                         Account                                       Delegated  Close Authority  Balance
+        -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA   8QvKCrvUWjR8emErThAM9xkF4RxMNSF1mPXqofURhA14  EjS8MtoofhoF1VCJhSyhkvKAFJAUGuKvAaUmirQj9X44                              100
+
+
+        - create a new Solana account:
+        $   solana-keygen new --no-bip39-passphrase -s -o new.json
+
+        - display the pubkey of the new account:
+        $ solana address -k new.json
+        FwSJMHY8VAnourNMiGDu2vtQG3q9oV7E8WQxXvj7wizD
+
+        - airdrop funds:
+        $ solana airdrop 1 new.json
+        Requesting airdrop of 1 SOL
+
+        Signature: 2UyNJ2dFP9hrSMKwNnoomKA2ywvhfUuMbExbUdCY1vV9w2ir2Hpia5WDa5yQ4UJqLte49bb48CXYuzNPuTtiaMct
+
+        1 SOL
+
+        - create spl-account associated with the new.json account:
+        $ spl-token create-account 8QvKCrvUWjR8emErThAM9xkF4RxMNSF1mPXqofURhA14 --owner FwSJMHY8VAnourNMiGDu2vtQG3q9oV7E8WQxXvj7wizD --fee-payer new.json
+        Creating account 6u7kTfzC8gzyA6kzbbG3kQMdycJPigaYcqqht1tBjryR
+
+        Signature: 3t3R6HkaZysLpYTXBh936H7AftdmFx2Lbq3g844EG7iFZKx7WHNjeNVBTSwgt6qLNcLuZc214HZhbmQiZ5bqS3Rm
+
+        - transfer spl-tokens to spl-account associated with new.json
+        $ spl-token transfer 8QvKCrvUWjR8emErThAM9xkF4RxMNSF1mPXqofURhA14 1 6u7kTfzC8gzyA6kzbbG3kQMdycJPigaYcqqht1tBjryR
+         Transfer 1 tokens
+           Sender: EjS8MtoofhoF1VCJhSyhkvKAFJAUGuKvAaUmirQj9X44
+           Recipient: 6u7kTfzC8gzyA6kzbbG3kQMdycJPigaYcqqht1tBjryR
+
+         Signature: 642UKGq9jL1DY8RZRjeaQXX8XKxTXF6d5ggjvxGXWrVyTUBC8JNooQJ5wNqMSE2zAV7WwtbmTfXgyEZSgwishz9u
+
+        - result:
+        $ spl-token balance --address 6u7kTfzC8gzyA6kzbbG3kQMdycJPigaYcqqht1tBjryR
+        1
+
+        - approve 5 tokens to the new.json account:
+        $  spl-token approve EjS8MtoofhoF1VCJhSyhkvKAFJAUGuKvAaUmirQj9X44 5 FwSJMHY8VAnourNMiGDu2vtQG3q9oV7E8WQxXvj7wizD
+        Approve 5 tokens
+          Account: EjS8MtoofhoF1VCJhSyhkvKAFJAUGuKvAaUmirQj9X44
+          Delegate: FwSJMHY8VAnourNMiGDu2vtQG3q9oV7E8WQxXvj7wizD
+
+        Signature: 4CigsocP1ttKGB5JBjzzj5oBWM2mXedLL1jMusHqY51pY6huMyT1czqNLfenG8UKciLPf4MuJwsZ4qqq2EAiLcPv
+
+        - check the result:
+        $ spl-token display EjS8MtoofhoF1VCJhSyhkvKAFJAUGuKvAaUmirQj9X44
+
+        SPL Token Account
+          Address: EjS8MtoofhoF1VCJhSyhkvKAFJAUGuKvAaUmirQj9X44
+          Program: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA
+          Balance: 79
+          Decimals: 9
+          Mint: 8QvKCrvUWjR8emErThAM9xkF4RxMNSF1mPXqofURhA14
+          Owner: AwsrRzgubeCsP77GNRdGCH4XefWkczFPrAzm86q7gVv4
+          State: Initialized
+          Delegation:
+            Delegate: FwSJMHY8VAnourNMiGDu2vtQG3q9oV7E8WQxXvj7wizD
+            Allowance: 5
+          Close authority: (not set)
+
+
+        - create another one Solana wallet:
+        $ solana-keygen new --no-bip39-passphrase -s -o other.json
+        Wrote new keypair to other.json
+
+        - get pubkey of the other.json Solana-account:
+        $ solana address -k other.json
+            81XNRa9hbsMcytdtZCi13qbBCjvmNPJKidTLSuNMxfsS
+
+        - transfer 5 tokens from EjS8MtoofhoF1VCJhSyhkvKAFJAUGuKvAaUmirQj9X44 to other.json using new.json keypair to sign transaction:
+        $ spl-token transfer --owner new.json    --from EjS8MtoofhoF1VCJhSyhkvKAFJAUGuKvAaUmirQj9X44 --allow-unfunded-recipient --fund-recipient 8QvKCrvUWjR8emErThAM9xkF4RxMNSF1mPXqofURhA14 5 81XNRa9hbsMcytdtZCi13qbBCjvmNPJKidTLSuNMxfsS
+        Transfer 5 tokens
+          Sender: EjS8MtoofhoF1VCJhSyhkvKAFJAUGuKvAaUmirQj9X44
+          Recipient: 81XNRa9hbsMcytdtZCi13qbBCjvmNPJKidTLSuNMxfsS
+          Recipient associated token account: 7dRQuTJkGW8KN2Wzt2cAXdThXUdxePFnobdxtu4Cvbx5
+
+        Signature: 2kSSka6M21mpsamv6XeepUK8Ux9jdykGRWxQbMe6h8P6useenwmWVi2CweH3tdES7kwyTDwnLkDVGD5hZgQhPe4Q
+
+        This transfer can be called transfer_from operation. The account new.json transferred tokens from the spl-acccount
+        that is not associated with it.  The approved tokens are used.
+
+        -make sure that all appoved tokens are spent:
+        $ spl-token display EjS8MtoofhoF1VCJhSyhkvKAFJAUGuKvAaUmirQj9X44
+
+        SPL Token Account
+          Address: EjS8MtoofhoF1VCJhSyhkvKAFJAUGuKvAaUmirQj9X44
+          Program: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA
+          Balance: 74
+          Decimals: 9
+          Mint: 8QvKCrvUWjR8emErThAM9xkF4RxMNSF1mPXqofURhA14
+          Owner: AwsrRzgubeCsP77GNRdGCH4XefWkczFPrAzm86q7gVv4
+          State: Initialized
+          Delegation: (not set)
+          Close authority: (not set)
+
+
+    2. add Deposit instruction to your hello-world contract.
+    instruction processing:
+        - create a contract wallet:
+            create pda-account derived from program_id. This should be done only once.
+        - create a spl-account associated with the contract wallet.
+        - transfer spl-token from the spl-account associated with signer to the spl-account associated with contract wallet
+        - create user-account inside state of the contract:
+            create a pda-account derived from signer's pubkey.
+        - mint funds of user-account: write number of transferred tokens to user-account. Let's call it wrapped-spl-tokens.
+
+    steps to reproduce:
+        - create spl-token
+        - create spl-account associated with signer account
+        - mint spl-token to the spl-account associated with signer account
+        - create the transaction to deposit funds to the contract
+        - Create other signer account, mint funds to it. Call the deposit using the new sigher.
+        - Check spl-balance of the contract wallet.
+
+    3. impl internal transfer instruction
+        - transfer wrapped-spl tokens from user1-account to user2-account. This transfer affects only pda-accounts of the contract.
+
+    4. impl withdraw instruction
+         - transfer spl-tokens from the contract wallet to spl-account associated with signer.
+         - burn wrapped-spl-tokens of the user-account.
+
+    5. Optionally.
+    create the spl-account associated with the payer account and use it as user-account inside the state of the contract.
+    Impl Deposit, internal transfer and withdraw instructions using this type of user-account.
+
+
+
+
