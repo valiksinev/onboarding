@@ -40,8 +40,8 @@
 
 6. Understanding Solana authority rules.
     - create new solana accounts:
-        solana-keygen new --no-bip39-passphrase --silent id1.json
-        solana-keygen new --no-bip39-passphrase --silent id2.json
+        solana-keygen new --no-bip39-passphrase --silent -o id1.json
+        solana-keygen new --no-bip39-passphrase --silent -o id2.json
 
     - deploy hello_world.so to two different addresses:
         solana program deploy --program-id id1.json hello_world.so
@@ -59,8 +59,8 @@
         https://github.com/anza-xyz/solana-sdk/blob/9decd857f019cc4c8dd89f4b3811ea56b0ac5c8e/system-interface/src/instruction.rs#L624
         We are using program derived accounts (PDA) which were derived from progam_1, program_2.
         PDA doesn't have corresponding private keys. PDA uses the seed as authority (as signature).
-        There are to reasons why transaction failed:
-            1. program_1 can't provide seed of PDA that was derived from
+        There are two reasons why transaction failed:
+            1. program_1 can't provide seed of PDA that was derived from program_2
             2. program_1 is able to modify only its own accounts
 
      - implement instruction "transfer_from" which transfers funds from specified PDA account.
