@@ -1,6 +1,6 @@
     Practical introduction to the asynchronous and multithreaded tasks.
 
-1. Calculate three factorials in three asynchronous tasks. Then try to do the same calculations spawing three threads.
+1. Calculate three factorials in three asynchronous tasks. Then try to do the same calculations spawning three threads.
 Compare the time execution.
 
 let futures = (0..3).map(|_| {
@@ -25,7 +25,7 @@ To spawn threads use tokio.
 2.    Sending batch of Solana transactions on client side.
 Distribute the funds across N recipients from the single account.
 Send transactions in parallel as match as possible.
-Number of receivers must be arbitrary (it doesn't have to be a multiple of 2^x.).
+Number of receivers must be arbitrary (it doesn't have to be a multiple of 2^x).
 To run batch of transaction use async mode to execute send_and_confirm_transaction();
 
 input: number to receivers
