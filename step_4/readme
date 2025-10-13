@@ -65,7 +65,7 @@ DErdwpF4CRVbeCxfkBz7sDxxAdTLaZ9ehkiLj6rkGLhU
 9TZ4zNKk2vrp5zEsrTatkgoK19JFAgLQ1D3oLx2j111X
 ....
 
-On clinet side call the transfer instruction of your hello_world contract to airdrop funds to these accounts.
+On client side call the transfer instruction of your hello_world contract to airdrop funds to these accounts.
 You need to spawn tasks. Each task calls the rpc_client.send_and_confirm_transaction().
 Use the semaphore to limit the number of spawned tasks by 10.
 
