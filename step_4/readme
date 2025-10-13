@@ -57,5 +57,17 @@ batch 4:                        d1 d2 d3 d4 d5 d6 d7 d8
 ...
 
 
+3. Semaphore
+Create file that contains 100 Solana pubkeys:
+
+9ArXGjava7FzUPC3QqBYDDiXZjPkB3zPAtv9N78NEDnB
+DErdwpF4CRVbeCxfkBz7sDxxAdTLaZ9ehkiLj6rkGLhU
+9TZ4zNKk2vrp5zEsrTatkgoK19JFAgLQ1D3oLx2j111X
+....
+
+On clinet side call the transfer instruction of your hello_world contract to airdrop funds to these accounts.
+You need to spawn tasks. Each task calls the rpc_client.send_and_confirm_transaction().
+Use the semaphore to limit the number of spawned tasks by 10.
+
 
 
