@@ -1,0 +1,58 @@
+    Getting to know  Ethereum
+
+reference information:
+	Solidity documentation: 			https://docs.soliditylang.org/en/v0.8.30/
+	Ethereum Virtual Machine opcodes: 	https://www.evm.codes/
+
+overview:
+	intro:			https://ethereum.org/developers/docs/intro-to-ethereum/
+	EVM: 			https://ethereum.org/developers/docs/evm/
+	Accounts: 		https://ethereum.org/developers/docs/accounts/
+	RPL encoding:	https://ethereum.org/developers/docs/data-structures-and-encoding/rlp/
+	Transactions:	https://ethereum.org/developers/docs/transactions/
+					(pay attention only to Type 0 (Legacy))
+
+1. using browser open Remix: https://remix.ethereum.org/
+
+2. hello_world contract
+	- add the hello_world.sol to the Contract folder
+	- compile (Ctrl + S)
+ 	- go to Deploy & run transactions menu, deploy the contract
+
+3. ERC-20
+	- deploy _ERC-20 contract. This contract is used as order-book. Original code: https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol
+	- call mint(<amount>)
+	- check the balance using BalanceOf(<caller_address>)
+	- call transfer(), approve(), transferFrom()
+
+4. modify the _ERC20 contract so that only the contract owner will be able to call the mint() method.
+	To do it you need to add a variable _owner
+
+		address private _owner;
+
+	and store msg.sender to it. It has to be done inside the constructor().
+
+	Study the _Owner.sol as an example of access control.
+
+5. nested deployment
+	- deploy A from ab.sol
+	- call deploy_B from A
+	- call the address_B() to get the address of contract B
+	- Put the contract B address to  "At Address" menu in Remix and press this button
+	- check _b value of B.
+	- call A.update_b()
+	- call B._b, make sure that the value has been updated by the call from contract A.
+
+6. Delegate call
+	A contract that makes a delegatecall to a target smart contract executes the logic of the target contract inside its own environment.
+	the article: https://rareskills.io/post/delegatecall
+
+	- deploy the contracts from delegate.sol
+	- call Caller.increment() to get Caller.number value
+	- call Caller.callIncrement() specifying the address of Called contract.
+	- call Caller.increment(). Make sure that Caller.number has been updated, not the Called.number.
+
+7. Nested call
+	- deploy contracts from nested.sol
+	- call A.call_b()
+	- call A.call_b_checked(). Transaction will be reverted. This way of invoking the contract automatically checks the result of the call.
