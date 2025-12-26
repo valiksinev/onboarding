@@ -1,0 +1,11 @@
+CI
+
+use the following commands, files to build images and run CI
+
+	docker build --tag hw -f hello_world/ci/Dockerfile_hw .
+
+	docker build --tag hw-test -f hello_world/ci/Dockerfile_tests .
+
+	
+	docker run -it  --entrypoint /bin/bash hw-test 
+	docker images
