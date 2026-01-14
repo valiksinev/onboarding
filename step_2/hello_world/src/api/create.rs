@@ -1,13 +1,13 @@
 use {
-    solana_pubkey::Pubkey,
-    solana_account_info::{next_account_info, AccountInfo},
     solana_system_interface::instruction,
-    solana_program_error::ProgramError,
     solana_program::{
         program::invoke_signed,
         rent::Rent, sysvar::Sysvar, msg,
+        account_info::{next_account_info, AccountInfo,},
+        entrypoint::ProgramResult,
+        program_error::ProgramError,
+        pubkey::Pubkey,
     },
-    solana_program_entrypoint::ProgramResult,
 };
 
 // create new solana account

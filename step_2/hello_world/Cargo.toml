@@ -7,22 +7,12 @@ edition = "2021"
 no-entrypoint = []
 test-sbf = []
 custom-heap = []
-
+custom-panic = []
 
 [dependencies]
-solana-account-info = "2.2.1"
-solana-instruction = "2.2.1"
-solana-msg = "2.2.1"
-solana-program-entrypoint = "2.2.1"
-solana-program-error = "2.2.2"
-solana-pubkey = "2.2.1"
-solana-program = "2.2.1"
-solana-system-interface = { version = "1.0.0", features = ["bincode"] }
+solana-program = { version = "=3.0.0", features = ["borsh"], default-features = false }
+solana-system-interface = { version = "2.0.0", features = ["bincode"] }
 hex = "0.4.3"
-
-[dev-dependencies]
-solana-program-test = "2.2.7"
-solana-sdk = "2.2.1"
 
 [lib]
 crate-type = ["cdylib", "lib"]
