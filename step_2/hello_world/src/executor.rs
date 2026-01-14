@@ -2,8 +2,12 @@
 
 use {
     crate::api::*,
-    solana_account_info::AccountInfo, solana_msg::msg, solana_program_entrypoint::ProgramResult,
-    solana_program_error::ProgramError, solana_pubkey::Pubkey, 
+    solana_program::{
+        account_info::AccountInfo, msg,
+        entrypoint::ProgramResult,
+        program_error::ProgramError,
+        pubkey::Pubkey,
+    },
 };
 
 // transaction executor

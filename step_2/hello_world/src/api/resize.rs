@@ -1,13 +1,14 @@
-use solana_msg::msg;
 use {
-    solana_pubkey::Pubkey,
-    solana_account_info::{next_account_info, AccountInfo},
+    // solana_account_info::{next_account_info, AccountInfo},
     solana_system_interface::{instruction::transfer,},
     solana_program::{
+        msg,
         program::invoke,
-        rent::Rent, sysvar::Sysvar
+        rent::Rent, sysvar::Sysvar,
+        account_info::{next_account_info, AccountInfo,},
+        entrypoint::ProgramResult,
+        pubkey::Pubkey,
     },
-    solana_program_entrypoint::ProgramResult,
     std::cmp::Ordering::*,
 };
 
