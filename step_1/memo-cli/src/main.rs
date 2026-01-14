@@ -3,10 +3,10 @@ use {
     solana_sdk::{
         message::Message,
         pubkey::Pubkey, instruction::{AccountMeta, Instruction},
-        commitment_config::{CommitmentConfig, CommitmentLevel},
         signature::{read_keypair_file, Signer},
         transaction::Transaction,
     },
+    solana_commitment_config::{CommitmentConfig, CommitmentLevel},
     std::{
         str::FromStr, path::Path
     },
